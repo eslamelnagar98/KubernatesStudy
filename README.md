@@ -27,4 +27,13 @@
 # Data Storage 
  => Volumes : Storage on Local Machine or Remote , Outside of the K8s Cluster
 
+ # StateFulSet
+ => for stateful apps or databases
+
+
+ # Cluster set-Up
+ => 2 master node and 3 slaves
+
+ # MinCube Test Local Cluster setup on Virtual Box
+
 
