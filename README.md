@@ -37,3 +37,99 @@
  # MinCube Test Local Cluster setup on Virtual Box
 
 
+ # To Start Minikube
+    =>minikube start --driver=hyperv 
+    -- Enable HyperV:
+       =>Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+# Get Nodes 
+    =>kubectl get nodes
+
+# Check minikube status:
+    =>minikube status
+
+# Create Deployment Called Nginx-depl from Nginx Docker Image 
+    =>kubectl create deployment nginx-depl --image=nginx
+
+    =>Get Deployments 
+    --kubectl get deployment
+# pods
+    =>Consist of Deployment Name + Replica Set Id And Its own Id
+
+# Edit Configuration File for Deployment (nginx-depl)
+    =>kubectl edit deployment nginx-depl
+
+# Debugging Pods
+
+    -- Get Logs For monogo-deployment:
+        => kubectl logs mongo-deployment-{pod-name} 
+    -- Get Pods Describe 
+        => kubectl describe pod mongo-deployment-{pod-name}
+
+# Get Terminal for Mongo-deployment
+    => kubectl exec -it monggo-deployment-6cffdd4d69-5xk92 (pod name for mongo-deployment container ) -- bin/bash  (Note You Must Keep space between -- and flag (bin/bash))
+
+# Exit from Terminal 
+    =>Exit
+
+# Delete Deployment
+    => Kubectl delete deployemt  Deployment Name
+
+
+# Apply Deployment Using Yaml File 
+    =>kubectl apply -f [filename]
+    --apply can create and configure if you edit yaml file
+
+
+# Each Configuration File consist of 3 parts 
+    --Metadata  
+    --Specification
+    --Status
+        => Desire Statue Vs Actual Statue
+
+# Etcd (cluster brain)
+    => Holds The Current status Of Any K8s Component 
+
+
+# Layers Of Abstraction 
+    =>Deployment Manages a
+    =>Replica set Manage a
+    =>Pod Manage a
+    =>Container 
+
+
+# template 
+    -- Has it is own metadata and spec section 
+
+# Sample Configuration File For Deployment 
+apiVersion: apps/v1
+kind: Deployment 
+
+
+---------  # is first part of Configuration file has some attributes [Name etc] ----------------
+metadata: 
+  name: nginx-deployment   #Name Of The Deployment
+  labels:
+    app: nginx
+    ---------- # Specification For Deployment (it is the second part of configuration file) -------
+spec: 
+  replicas: 2
+
+  ---------- #Connection Between Deployment And It is Pods ----------
+  selector:  
+    matchLabels:
+    --Label  Key Value Pair App : Nginx Used To Connection
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+
+    ---------- # Specification for Pods ---------------
+    spec: 
+      containers:
+        - name: nginx
+          image: nginx:1.16
+          ports:
+            - containerPort: 8080
+
+

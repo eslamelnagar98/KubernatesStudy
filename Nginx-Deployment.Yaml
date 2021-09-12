@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment #Name Of The Deployment
+metadata: # is first part of Configuration file has some attributes [Name etc]
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec: # Specification For Deployment (it is the second part of configuration file)
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec: # Specification for Pods
+      containers:
+        - name: nginx
+          image: nginx:1.16
+          ports:
+            - containerPort: 8080
