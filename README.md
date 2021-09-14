@@ -64,6 +64,8 @@
         => kubectl logs mongo-deployment-{pod-name} 
     -- Get Pods Describe 
         => kubectl describe pod mongo-deployment-{pod-name}
+    -- Get Wide Information About Pod 
+        =>kubectl get pods -o wide
 
 # Get Terminal for Mongo-deployment
     => kubectl exec -it monggo-deployment-6cffdd4d69-5xk92 (pod name for mongo-deployment container ) -- bin/bash  (Note You Must Keep space between -- and flag (bin/bash))
@@ -107,7 +109,8 @@ kind: Deployment
 
 ---------  # is first part of Configuration file has some attributes [Name etc] ----------------
 metadata: 
-  name: nginx-deployment   #Name Of The Deployment
+------ #Name Of The Deployment ------------
+  name: nginx-deployment   
   labels:
     app: nginx
     ---------- # Specification For Deployment (it is the second part of configuration file) -------
@@ -132,4 +135,29 @@ spec:
           ports:
             - containerPort: 8080
 
+
+
+# port In Service And Pod 
+ -- Ports 
+      -protocol:TCP
+       port :80
+       targetPort:8080
+ => Db Service Connect To Nginx Service On port  80  
+ => And Connect to Pod on 8080 That match pod configuration  
+
+# Get Content Of Configuration File inTo Yaml File 
+    =>kubectl get deployment nginx-deployment -o Yaml > ngnix-deployment-result.Yaml
+
+
+
+# Secret Configuration File 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-service
+type: Opaque   => Opaque It is The Default Type    Key-value Pair
+data:
+    mongo-root-username:dXNlcm5hbWU=
+    mongo-root-password:cGFzc3dvcmQ=
 
